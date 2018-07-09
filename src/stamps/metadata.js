@@ -19,6 +19,7 @@ const stamp = sessionStamp.compose({
         return request.call(this, '/metadata').then(metadata => {
           console.log('metadata in getall', metadata);
           saveMetadata({ key: 'metadata', value: metadata });
+          return metadata;
         });
       }
       return load;
