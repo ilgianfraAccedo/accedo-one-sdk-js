@@ -1,5 +1,6 @@
 const sessionStamp = require('./session');
 const { grab } = require('../apiHelper');
+const { saveMetadata, loadMetadata } = require('../browser/metadataWrapper');
 
 function request(path) {
   return this.withSessionHandling(() => grab(path, this.config));
@@ -13,7 +14,14 @@ const stamp = sessionStamp.compose({
      * @return {promise}  a promise of the requested data
      */
     getAllMetadata() {
-      return request.call(this, '/metadata');
+      const load = loadMetadata({ key: 'metadata' });
+      if (!load) {
+        return request.call(this, '/metadata').then(metadata => {
+          console.log('metadata in getall', metadata);
+          saveMetadata({ key: 'metadata', value: metadata });
+        });
+      }
+      return load;
     },
 
     /**
