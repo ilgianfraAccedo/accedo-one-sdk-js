@@ -49,7 +49,18 @@ const stamp = sessionStamp.compose({
      * @return {promise}  a promise of the requested data
      */
     getMetadataByKeys(keys) {
-      return request.call(this, `/metadata/${keys.join(',')}`);
+      const metadataKey = `${keys.join(',')}_metadata`;
+      const load = loadMetadata({ key: metadataKey });
+      if (!load) {
+        return request
+          .call(this, `/metadata/${keys.join(',')}`)
+          .then(metadata => {
+            console.log('GET metadatas by keys');
+            saveMetadata({ key: metadataKey, value: metadata });
+            return metadata;
+          });
+      }
+      return Promise.resolve(load);
     },
   },
 });

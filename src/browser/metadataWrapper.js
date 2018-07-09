@@ -7,8 +7,10 @@ try {
 
 module.exports.saveMetadata = ({ key, value }) => {
   if (!hasLocalStorage) {
+    console.log('local storage not found in save metadata');
     return;
   }
+
   try {
     const expirationMS = 60 * 1000;
     const data = JSON.stringify(value);
@@ -24,8 +26,10 @@ module.exports.saveMetadata = ({ key, value }) => {
 
 module.exports.loadMetadata = ({ key }) => {
   if (!hasLocalStorage) {
-    return;
+    console.log('local storage not found in load metadata');
+    return true;
   }
+
   try {
     if (!localStorage[key]) {
       return undefined;
