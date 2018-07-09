@@ -1,3 +1,4 @@
+const EXPIRATION = 60 * 1000;
 let hasLocalStorage = false;
 try {
   hasLocalStorage = typeof localStorage !== 'undefined';
@@ -7,26 +8,22 @@ try {
 
 module.exports.saveMetadata = ({ key, value }) => {
   if (!hasLocalStorage) {
-    console.log('local storage not found in save metadata');
     return;
   }
 
   try {
-    const expirationMS = 60 * 1000;
+    const expirationMS = EXPIRATION;
     const data = JSON.stringify(value);
     const now = new Date().getTime();
-    console.log('Save data', value);
     localStorage[key] = data;
-    localStorage[`${key}Timestamp`] = now + expirationMS;
+    localStorage[`${key}_timestamp`] = now + expirationMS;
   } catch (error) {
-    console.log(error, 'save meta');
-    // nothing we can do on private mode or lack of storage space
+    return undefined;
   }
 };
 
 module.exports.loadMetadata = ({ key }) => {
   if (!hasLocalStorage) {
-    console.log('local storage not found in load metadata');
     return;
   }
 
@@ -34,13 +31,12 @@ module.exports.loadMetadata = ({ key }) => {
     if (!localStorage[key]) {
       return undefined;
     }
-    const timestamp = localStorage[`${key}Timestamp`];
+
+    const timestamp = localStorage[`${key}_timestamp`];
     const now = new Date().getTime();
     const data = JSON.parse(localStorage[key]);
-    console.log('LOAD DATA:', data);
     return now < timestamp && data;
   } catch (error) {
-    console.log(error, 'load meta');
     return undefined;
   }
 };

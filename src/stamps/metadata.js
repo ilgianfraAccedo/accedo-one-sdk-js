@@ -17,7 +17,6 @@ const stamp = sessionStamp.compose({
       const load = loadMetadata({ key: 'metadata_all' });
       if (!load) {
         return request.call(this, '/metadata').then(metadata => {
-          console.log('metadata in getall');
           saveMetadata({ key: 'metadata', value: metadata });
           return metadata;
         });
@@ -35,7 +34,6 @@ const stamp = sessionStamp.compose({
       const load = loadMetadata({ key: metadataKey });
       if (!load) {
         return request.call(this, `/metadata/${key}`).then(metadata => {
-          console.log('metadata in getall with key');
           saveMetadata({ key: metadataKey, value: metadata });
           return metadata;
         });
@@ -55,7 +53,6 @@ const stamp = sessionStamp.compose({
         return request
           .call(this, `/metadata/${keys.join(',')}`)
           .then(metadata => {
-            console.log('GET metadatas by keys');
             saveMetadata({ key: metadataKey, value: metadata });
             return metadata;
           });
