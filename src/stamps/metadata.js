@@ -14,10 +14,11 @@ const stamp = sessionStamp.compose({
      * @return {promise}  a promise of the requested data
      */
     getAllMetadata() {
-      const load = loadMetadata({ key: 'metadata_all' });
+      const metadataKey = 'metadata_all';
+      const load = loadMetadata({ key: metadataKey });
       if (!load) {
         return request.call(this, '/metadata').then(metadata => {
-          saveMetadata({ key: 'metadata', value: metadata });
+          saveMetadata({ key: metadataKey, value: metadata });
           return metadata;
         });
       }
