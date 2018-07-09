@@ -26,6 +26,9 @@ module.exports.loadMetadata = ({ key = 'metadata' }) => {
     return;
   }
   try {
+    if (!localStorage[key]) {
+      return {};
+    }
     const timestamp = localStorage[`${key}Timestamp`];
     const now = new Date().getTime();
     const data = JSON.parse(localStorage[key]);
