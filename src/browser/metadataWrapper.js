@@ -12,6 +12,7 @@ module.exports.saveMetadata = ({ key = 'metadata', value }) => {
     const expirationMS = 60 * 1000;
     const data = JSON.stringify(value);
     const now = new Date().getTime();
+    console.log('Save data', value);
     localStorage[key] = data;
     localStorage[`${key}Timestamp`] = now + expirationMS;
     console.log('SAVE DATA', data, 'now', now);
@@ -27,7 +28,7 @@ module.exports.loadMetadata = ({ key = 'metadata' }) => {
   }
   try {
     if (!localStorage[key]) {
-      return {};
+      return undefined;
     }
     const timestamp = localStorage[`${key}Timestamp`];
     const now = new Date().getTime();
@@ -36,6 +37,6 @@ module.exports.loadMetadata = ({ key = 'metadata' }) => {
     return now < timestamp && data;
   } catch (error) {
     console.log(error, 'load meta');
-    return {};
+    return undefined;
   }
 };

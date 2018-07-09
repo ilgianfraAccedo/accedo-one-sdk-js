@@ -17,12 +17,12 @@ const stamp = sessionStamp.compose({
       const load = loadMetadata({ key: 'metadata' });
       if (!load) {
         return request.call(this, '/metadata').then(metadata => {
-          console.log('metadata in getall', metadata);
+          console.log('metadata in getall');
           saveMetadata({ key: 'metadata', value: metadata });
           return metadata;
         });
       }
-      return load;
+      return Promise.resolve(load);
     },
 
     /**
