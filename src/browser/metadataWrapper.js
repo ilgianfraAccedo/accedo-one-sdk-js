@@ -27,7 +27,7 @@ module.exports.saveMetadata = ({ key, value }) => {
 module.exports.loadMetadata = ({ key }) => {
   if (!hasLocalStorage) {
     console.log('local storage not found in load metadata');
-    return true;
+    return;
   }
 
   try {
