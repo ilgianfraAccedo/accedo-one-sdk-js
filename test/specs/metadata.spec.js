@@ -6,7 +6,7 @@ describe('Metadata API Tests', () => {
     deviceId: 'gregTestingSDK',
   });
 
-  xtest('getAllMetadata should return at least one item from Accedo One', () => {
+  test('getAllMetadata should return at least one item from Accedo One', () => {
     return client.getAllMetadata().then(metadata => {
       expect(Object.keys(metadata).length).toBeGreaterThan(0);
     });

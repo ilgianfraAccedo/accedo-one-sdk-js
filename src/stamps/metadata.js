@@ -14,7 +14,7 @@ const stamp = sessionStamp.compose({
      * @return {promise}  a promise of the requested data
      */
     getAllMetadata() {
-      const load = loadMetadata({ key: 'metadata' });
+      const load = loadMetadata({ key: 'metadata_all' });
       if (!load) {
         return request.call(this, '/metadata').then(metadata => {
           console.log('metadata in getall');
@@ -31,7 +31,16 @@ const stamp = sessionStamp.compose({
      * @return {promise}  a promise of the requested data
      */
     getMetadataByKey(key) {
-      return request.call(this, `/metadata/${key}`);
+      const metadataKey = `${key}_metadata`;
+      const load = loadMetadata({ key: metadataKey });
+      if (!load) {
+        return request.call(this, `/metadata/${key}`).then(metadata => {
+          console.log('metadata in getall with key');
+          saveMetadata({ key: metadataKey, value: metadata });
+          return metadata;
+        });
+      }
+      return Promise.resolve(load);
     },
 
     /**

@@ -4,7 +4,8 @@ try {
 } catch (err) {
   // Probably Safari 11 with 'website data' set to 'always blocked'
 }
-module.exports.saveMetadata = ({ key = 'metadata', value }) => {
+
+module.exports.saveMetadata = ({ key, value }) => {
   if (!hasLocalStorage) {
     return;
   }
@@ -15,14 +16,13 @@ module.exports.saveMetadata = ({ key = 'metadata', value }) => {
     console.log('Save data', value);
     localStorage[key] = data;
     localStorage[`${key}Timestamp`] = now + expirationMS;
-    console.log('SAVE DATA', data, 'now', now);
   } catch (error) {
     console.log(error, 'save meta');
     // nothing we can do on private mode or lack of storage space
   }
 };
 
-module.exports.loadMetadata = ({ key = 'metadata' }) => {
+module.exports.loadMetadata = ({ key }) => {
   if (!hasLocalStorage) {
     return;
   }
@@ -33,7 +33,7 @@ module.exports.loadMetadata = ({ key = 'metadata' }) => {
     const timestamp = localStorage[`${key}Timestamp`];
     const now = new Date().getTime();
     const data = JSON.parse(localStorage[key]);
-    console.log('DATA:', data);
+    console.log('LOAD DATA:', data);
     return now < timestamp && data;
   } catch (error) {
     console.log(error, 'load meta');
