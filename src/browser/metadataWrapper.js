@@ -1,4 +1,4 @@
-const EXPIRATION = 70 * 1000;
+const EXPIRATION = 60 * 1000;
 let hasSessionStorage = false;
 
 try {
