@@ -1,13 +1,14 @@
 const EXPIRATION = 60 * 1000;
-let haSsessionStorage = false;
+let hasSessionStorage = false;
+
 try {
-  haSsessionStorage = typeof sessionStorage !== 'undefined';
+  hasSessionStorage = typeof sessionStorage !== 'undefined';
 } catch (err) {
   // Probably Safari 11 with 'website data' set to 'always blocked'
 }
 
 module.exports.saveMetadata = ({ key, value }) => {
-  if (!haSsessionStorage) {
+  if (!hasSessionStorage) {
     return;
   }
 
@@ -23,7 +24,7 @@ module.exports.saveMetadata = ({ key, value }) => {
 };
 
 module.exports.loadMetadata = ({ key }) => {
-  if (!haSsessionStorage) {
+  if (!hasSessionStorage) {
     return;
   }
 
